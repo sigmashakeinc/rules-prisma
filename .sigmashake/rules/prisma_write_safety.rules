@@ -6,7 +6,7 @@ rule prisma-block-unsafe-patterns {
   priority 90
   severity error
   DENY write
-  IF path GLOB "**/*" AND content CONTAINS "UNSAFE_prisma_PATTERN"
+  IF path GLOB "**/*" AND content CONTAINS "$executeRawUnsafe"
   MESSAGE "Blocked an unsafe pattern in prisma. Use the recommended best practices for 2025/2026."
 }
 
@@ -14,7 +14,7 @@ rule prisma-force-updated-api {
   enabled true
   priority 80
   severity warning
-  ASK write
-  IF path GLOB "**/*" AND content CONTAINS "OLD_prisma_API"
+  LOG write
+  IF path GLOB "**/*" AND content CONTAINS "prisma.raw"
   MESSAGE "You are using an outdated API for prisma. Please upgrade to the newer API."
 }
